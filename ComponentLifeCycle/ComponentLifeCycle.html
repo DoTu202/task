@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Lifecycle Demo</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        padding: 20px;
+      }
+      .box {
+        background: #f0f0f0;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      //Component Mount and Unmount
+      const ClockComponent = () => {
+        const [time, setTime] = useState(new Date().toLocaleTimeString());
+
+        useEffect(() => {
+          const timerID = setInterval(() => {
+            console.log("...tick tock...");
+            setTime(new Date().toLocaleTimeString());
+          }, 1000);
+          return () => {
+            clearInterval(timerID);
+          };
+        }, []);
+
+        return (
+          <div className="box" style={{ borderLeft: "5px solid green" }}>
+            <h3>Clock: {time}</h3>
+          </div>
+        );
+      };
+
+      //Main App Component
+      const App = () => {
+        const [show, setShow] = useState(false);
+
+        return (
+          <div>
+            <h1>Lifecycle</h1>
+            <p>
+              Click here <b>Mount</b> or <b>Unmount</b> component.
+            </p>
+
+            <button
+              onClick={() => setShow(!show)}
+              style={{
+                padding: "10px 20px",
+                cursor: "pointer",
+                backgroundColor: show ? "#dc3545" : "#28a745",
+                color: "white",
+                border: "none",
+                borderRadius: "12px",
+              }}
+            >
+              {show ? "Unmount" : "Mount"}
+            </button>
+            {show && <ClockComponent />}
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>React useState Demo</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        padding: 20px;
+        background-color: #f0f2f5;
+      }
+      .container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+      h3 {
+        margin-top: 0;
+        color: #333;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+      }
+      button {
+        padding: 8px 15px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        margin-right: 5px;
+        margin-top: 10px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      input {
+        padding: 8px;
+        width: 90%;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .json-view {
+        background: #333;
+        color: #81c784;
+        padding: 10px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+      .button-group {
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .button-group button {
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      // Boolean
+      const ToggleLight = () => {
+        const [isOn, setIsOn] = useState(false);
+
+        return (
+          <div
+            className="card"
+            style={{ background: isOn ? "#fff9c4" : "white" }}
+          >
+            <h3>1. Boolean State</h3>
+            <p>
+              Light is: <b>{isOn ? "ON" : "OFF"}</b>
+            </p>
+
+            <button
+              onClick={() => setIsOn(!isOn)}
+              style={{ background: isOn ? "#fbc02d" : "#555" }}
+            >
+              {isOn ? "Turn Off" : "Turn On "}
+            </button>
+          </div>
+        );
+      };
+
+      // String
+      const TextInput = () => {
+        const [text, setText] = useState("");
+
+        return (
+          <div className="card">
+            <h3>2. String State</h3>
+            <p>
+              You're typing: <strong>{text || "..."}</strong>
+            </p>
+
+            <input
+              type="text"
+              placeholder="Typing..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <button
+              style={{ background: "#dc3545" }}
+              onClick={() => setText("")}
+            >
+              Delete
+            </button>
+          </div>
+        );
+      };
+
+      // Object
+      const UserUpdate = () => {
+        const [user, setUser] = useState({
+          name: "Đỗ Minh Tú",
+          age: 23,
+          job: "Dev",
+        });
+
+        const updateName = () => {
+          const newName = prompt("Enter new name:", user.name);
+          if (newName) {
+            setUser({ ...user, name: newName });
+          }
+        };
+
+        const updateAge = () => {
+          const newAge = parseInt(prompt("Enter new age:", user.age), 10);
+          if (newAge) {
+            setUser({ ...user, age: newAge });
+          }
+        };
+
+        const updateJob = () => {
+          const newJob = prompt("Enter new job:", user.job);
+          if (newJob) {
+            setUser({ ...user, job: newJob });
+          }
+        };
+
+        return (
+          <div className="card">
+            <h3>3. Object State</h3>
+            <div className="json-view">{JSON.stringify(user, null, 2)}</div>
+
+            <div className="button-group">
+              <button onClick={updateName}>Change Name</button>
+              <button onClick={updateAge}>Change Age</button>
+              <button onClick={updateJob}>Change Job</button>
+            </div>
+          </div>
+        );
+      };
+
+      const App = () => {
+        return (
+          <div>
+            <h1>React useState</h1>
+            <div className="container">
+              <ToggleLight />
+              <TextInput />
+              <UserUpdate />
+            </div>
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
