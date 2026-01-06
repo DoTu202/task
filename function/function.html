@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Component</title>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        width: 300px;
+      }
+      button {
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        margin-top: 10px;
+      }
+      h2 {
+        margin-top: 0;
+        color: #333;
+      }
+      .tag {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .tag-func {
+        background-color: #e6fffa;
+        color: #00796b;
+        border: 1px solid #00796b;
+      }
+      .tag-class {
+        background-color: #fff3e0;
+        color: #e65100;
+        border: 1px solid #e65100;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      //function component
+      const CounterFunction = () => {
+        const [count, setCount] = React.useState(0);
+
+        const increase = () => {
+          setCount(count + 1);
+        };
+
+        return (
+          <div className="box">
+            <span className="tag tag-func">Function Component</span>
+            <h2>Function Component</h2>
+            <p>
+              Count: <strong>{count}</strong>
+            </p>
+            <button onClick={increase}>Increasing (+1)</button>
+          </div>
+        );
+      };
+
+      //class component
+      class CounterClass extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            count: 0,
+          };
+        }
+
+        increase = () => {
+          this.setState({ count: this.state.count + 1 });
+        };
+
+        render() {
+          return (
+            <div className="box">
+              <span className="tag tag-class">Class Component</span>
+              <h2>Class Component</h2>
+              <p>
+                Count: <strong>{this.state.count}</strong>
+              </p>
+              <button onClick={this.increase}>Increasing (+1)</button>
+            </div>
+          );
+        }
+      }
+
+      const App = () => {
+        return (
+          <div>
+            <h1>Function Component & Class Component</h1>
+            <hr style={{ marginBottom: "20px" }} />
+            <div className="container">
+              <CounterFunction />
+              <CounterClass />
+            </div>
+          </div>
+        );
+      };
+
+      const rootElement = document.getElementById("root");
+      const root = ReactDOM.createRoot(rootElement);
+      root.render(<App />);
+    </script>
+  </body>
+</html>
